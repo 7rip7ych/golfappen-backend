@@ -6,7 +6,12 @@ import { Server } from 'socket.io';
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:8080/golfappen.html", "https://7rip7ych.com/golfappen.html"],
+    methods: ["GET", "POST", "DELETE"]
+  }
+});
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
