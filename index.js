@@ -8,7 +8,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:8080/golfappen.html", "https://7rip7ych.com/golfappen.html"],
+    origin: ["http://localhost:8080", "https://7rip7ych.com"],
     methods: ["GET", "POST", "DELETE"]
   }
 });
