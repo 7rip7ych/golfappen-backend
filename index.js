@@ -44,9 +44,14 @@ io.sockets.on('connection', function(socket){
     socket.emit('joined', newId);
   })
 
-  socket.on('join', function(room) {
-    socket.join(room);
-    socket.emit('joined', room)
+  socket.on('join', function(data) {
+    socket.join(data.room);
+    socket.emit('joined', data.room)
+    console.log(socket.id)
+    socket.broadcast.to(data.room).emit('new player joined', {
+      id: socket.id,
+      player: data.player
+    })
   });
 
   socket.on("content", (data) => {
@@ -59,6 +64,10 @@ io.sockets.on('connection', function(socket){
     //   await models.updateDocs(data);
     // }, 2000);
   });
+
+  socket.on("initial content", (content) => {
+    socket.broadcast.to(content.id).emit("content", content.data)
+  })
 
   socket.on('chat message', (msg) => {
       console.log('message: ' + msg);
@@ -78,7 +87,7 @@ function generateId(forbidden) {
   const delta = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   const omega = alpha.concat(beta, delta);
   const randEle = (arr) => { return arr[Math.floor(Math.random() * arr.length)] };
-  console.log(omega)
+  // console.log(omega)
   let id = ""
   let i = 0
   while (i < 4) {
